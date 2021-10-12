@@ -1,0 +1,20 @@
+#keyboard {
+  height: 15.25rem;
+  width: 47.5rem;
+  margin: 0.5rem auto;
+  padding: 3rem 0 0 3.5rem;
+  position: relative;
+  border: 1px solid var(--keyboard-border);
+  border-radius: 1rem;
+  background-color: var(--keyboard);
+  box-shadow: 0 0 50px var(--black-50) inset, 0 1px var(--keyboard-shadow) inset,
+    0 5px 15px var(--black-50);
+}
+
+#keyboard div:first-child {
+  border-radius: 5px 0 5px 5px;
+}
+
+#keyboard div:last-child {
+  border-radius: 0 5px 5px 5px;
+}

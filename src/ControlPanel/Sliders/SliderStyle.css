@@ -1,0 +1,9 @@
+.slider-container {
+  display: flex;
+  padding: 8px;
+  align-items: center;
+}
+
+.slider-container input {
+  margin: 0 .3rem;
+}
