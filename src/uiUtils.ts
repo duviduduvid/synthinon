@@ -7,3 +7,8 @@ export function setKeyboardRandomColor() {
 
   root.style.setProperty('--keyboard', `hsl(${hue}, ${saturation}%, ${lightness}%)`);
 }
+
+export function setColor(hslColor: string) {
+  const root = document.documentElement;
+  root.style.setProperty('--keyboard', hslColor);
+}

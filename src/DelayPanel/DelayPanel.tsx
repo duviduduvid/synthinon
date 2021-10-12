@@ -31,8 +31,7 @@ export default function DelayPanel() {
       backgroundColor: "var(--keyboard)",
       borderRadius: '1rem',
       color: 'var(--white-50)',
-      height: '40%',
-      width: '5%'
+      width: '10%'
     }}>
       <Typography textAlign="center" padding="10px">Delay</Typography>
       <FormGroup>

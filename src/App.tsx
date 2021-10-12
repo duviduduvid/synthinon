@@ -1,6 +1,7 @@
 import ControlPanel from './ControlPanel/ControlPanel';
 import DelayPanel from './DelayPanel/DelayPanel';
 import Keyboard from './Keyboard/Keyboard';
+import ColorSelectorPanel from './ColorSelector/ColorSelectorPanel';
 import './App.css';
 
 function App() {
@@ -9,6 +10,7 @@ function App() {
       <div className="panels">
         <ControlPanel />
         <DelayPanel />
+        <ColorSelectorPanel />
       </div>
       <div className="keybaord">
         <Keyboard />

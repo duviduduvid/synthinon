@@ -1,19 +1,13 @@
-import { useEffect } from "react";
 import { getSynthOsc, keys } from "../audtioUtils";
 import { KeyObject } from '../types';
 
 import Key from "../Key/Key";
-import "./Keyboard.css";
-import { setKeyboardRandomColor } from "../uiUtils";
 import { NOTE_LENGTH } from "../consts";
+import "./Keyboard.css";
 
 const Keyboard = () => {
   const pressedNotes = new Map<KeyObject, OscillatorNode>();
   let playingNoise: AudioBufferSourceNode | null = null;
-
-  useEffect(() => {
-    setKeyboardRandomColor();
-  }, []);
 
   const getNoteClassName = (note: string) => {
     if (note.includes("#"))
