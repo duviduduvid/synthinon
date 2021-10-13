@@ -63,7 +63,7 @@ class SynthAudioContext {
   }
 
   private initDelayAndFeedback(): [DelayNode, GainNode, GainNode] {
-    const delay = new DelayNode(this.audioContext, { delayTime: DEFAULT_DELAY_TIME, maxDelayTime: 3 });
+    const delay = new DelayNode(this.audioContext, { delayTime: DEFAULT_DELAY_TIME, maxDelayTime: 2 });
     const feedback = this.audioContext.createGain();
     const delayGain = this.audioContext.createGain();
     feedback.gain.value = DEFAULT_DELAY_FEEDBACK;
