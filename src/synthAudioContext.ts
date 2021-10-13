@@ -174,7 +174,7 @@ class SynthAudioContext {
     const node = this.gainNodes.get(forNote);
     if (node) {
       node.gain.exponentialRampToValueAtTime(
-        Math.min(SUSTAINED_GAIN, this.volume),
+        SUSTAINED_GAIN,
         this.audioContext.currentTime + Math.min(this.decayTime, this.releaseTime)
       );
     }
@@ -190,7 +190,7 @@ class SynthAudioContext {
     const node = this.gainNodes.get(forNote);
     if (node) {
       node.gain.exponentialRampToValueAtTime(
-        Math.min(SUSTAINED_GAIN / 2, this.volume),
+        SUSTAINED_GAIN / 2,
         this.audioContext.currentTime + Math.min(this.sustainTime, this.releaseTime)
       );
     }
