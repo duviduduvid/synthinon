@@ -98,7 +98,7 @@ export function getSynthOsc(key: KeyObject): {osc: OscillatorNode, noise: AudioB
 
 export function selectWaveformRandomly(): OscillatorType {
   const waveforms = ["sawtooth", "sine", "square", "triangle"];
-  const index: number = Math.round(Math.random() * waveforms.length - 1)
+  const index: number = Math.floor(Math.random() * waveforms.length);
   return waveforms[index] as OscillatorType;
 }
 
