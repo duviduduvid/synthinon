@@ -4,13 +4,13 @@ import { INIT_FREQ } from "../../../consts";
 
 export default function FrequencySlider() {
   
-  const logslider = (value: number) => {
-    // value is between 10 - 10000
-    var minp = 200;
+  const linearValueToLog = (value: number) => {
+    // value is between 100 - 10000
+    var minp = 100;
     var maxp = 10000;
   
     // The result should be between 100 an 20000
-    var minv = Math.log(200);
+    var minv = Math.log(100);
     var maxv = Math.log(20000);
   
     // calculate adjustment factor
@@ -20,13 +20,13 @@ export default function FrequencySlider() {
   };
 
   const onFreqChange = (freq: number) => {
-    synthAudioContext.setFilterFrequency(logslider(freq));
+    synthAudioContext.setFilterFrequency(linearValueToLog(freq));
   };
 
   return (
     <GenericSlider 
       label="Frequency" 
-      min={200}
+      min={100}
       max={10000}
       step={50}
       initValue={INIT_FREQ} 
