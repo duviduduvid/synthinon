@@ -6,3 +6,6 @@ Keyboard, basic operations and some ideas came from this [How to code a playable
 This one ([Web audio delay](https://tomhazledine.com/web-audio-delay/)) was also very helpful.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+#### issues?
+* Still didn't get right the Sustain parameter in the amplitude envelope, so it doesn't really work as expected... 
