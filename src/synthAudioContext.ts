@@ -1,4 +1,4 @@
-import { selectWaveformRandomly } from "./audtioUtils";
+import { selectWaveformRandomly } from "./audioUtils";
 import { 
   DEFAULT_ATTACK_TIME, 
   DEFAULT_DECAY_TIME, 

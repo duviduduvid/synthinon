@@ -1,4 +1,4 @@
-import { getSynthOsc, keys } from "../audtioUtils";
+import { getSynthOsc, keys } from "../audioUtils";
 import { KeyObject } from '../types';
 
 import Key from "../Key/Key";

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { mapKeyEventToKey, mapSpecialKeyToKeyboard } from "../audtioUtils";
+import { mapKeyEventToKey, mapSpecialKeyToKeyboard } from "../audioUtils";
 import { KeyObject, ClassName} from "../types";
 import "./Key.css";
 
