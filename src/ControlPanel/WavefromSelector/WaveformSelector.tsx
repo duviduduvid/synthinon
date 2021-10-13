@@ -13,8 +13,10 @@ export default function WaveformSelector() {
   }
 
   const handleChange = (e: React.MouseEvent<HTMLElement>, selectedWaveform: string) => {
-    setWaveform(selectedWaveform);
-    onSelectWaveform(selectedWaveform as OscillatorType | "random");
+    if (selectedWaveform) {
+      setWaveform(selectedWaveform);
+      onSelectWaveform(selectedWaveform as OscillatorType | "random");
+    }
   };
 
   return (
