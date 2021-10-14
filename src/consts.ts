@@ -1,7 +1,9 @@
 export const ZERO_GAIN = 0.000001;
 export const INIT_GAIN = 0.5;
-export const INIT_FREQ = 20000;
+export const INIT_FREQ = 15000;
 export const INIT_Q = 1.25;
+export const MAX_FREQ = 20000;
+export const MIN_FREQ = 100;
 export const SUSTAINED_GAIN = 0.1;
 export const DEFAULT_ATTACK_TIME = 0.05;
 export const DEFAULT_DECAY_TIME = 0.2;
@@ -12,3 +14,5 @@ export const DEFAULT_WAVEFORM = "triangle";
 export const DEFAULT_OCTAVE = 3;
 export const DEFAULT_DELAY_TIME = 0.4;
 export const DEFAULT_DELAY_FEEDBACK = 0.25;
+export const DEFAULT_LFO_RATE = 15;
+export const DEFAULT_LFO_WAVEFORM = "sine";

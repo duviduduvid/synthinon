@@ -135,3 +135,8 @@ export function mapKeyEventToKey(key: string): string {
       return key;
   }
 }
+
+export function toLogValue(value: number, min: number, max: number) {
+  const exp = (value - min) / (max - min);
+  return min * Math.pow(max / min, exp);
+}
