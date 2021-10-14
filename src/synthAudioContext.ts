@@ -4,6 +4,8 @@ import {
   DEFAULT_DECAY_TIME, 
   DEFAULT_DELAY_FEEDBACK, 
   DEFAULT_DELAY_TIME, 
+  DEFAULT_LFO_RATE, 
+  DEFAULT_LFO_WAVEFORM, 
   DEFAULT_OCTAVE, 
   DEFAULT_RELEASE_TIME, 
   DEFAULT_SUSTAIN_TIME, 
@@ -19,11 +21,15 @@ import {
 class SynthAudioContext {
   private audioContext: AudioContext;
   private oscs: Map<String, OscillatorNode>;
+  private lfos: Map<String, OscillatorNode>;
   private gainNodes: Map<String, GainNode>;
   private noises: Map<String, AudioBufferSourceNode>;
   private panner: StereoPannerNode;
   private volume: number;
   private lowpassFilter: BiquadFilterNode;
+  // private lfo: OscillatorNode;
+  private lfoGain: GainNode;
+  private _isLfoOn: boolean;
   private delay: DelayNode;
   private delayFeedback: GainNode;
   private delayGain: GainNode;
@@ -32,6 +38,8 @@ class SynthAudioContext {
   private sustainTime: number;
   private releaseTime: number;
   private waveform: OscillatorType | "random";
+  private lfoWaveform: OscillatorType | "random";
+  private lfoRate: number;
   private isNoiseOsc: boolean;
   private _octave: number;
   private master: GainNode;
@@ -39,6 +47,7 @@ class SynthAudioContext {
   constructor() {
     this.audioContext = new window.AudioContext();
     this.oscs = new Map<String, OscillatorNode>();
+    this.lfos = new Map<String, OscillatorNode>();
     this.gainNodes = new Map<String, GainNode>();
     this.noises = new Map<String, AudioBufferSourceNode>();
     this.panner = new StereoPannerNode(this.audioContext, { pan: 0 });
@@ -49,9 +58,14 @@ class SynthAudioContext {
     this.sustainTime = DEFAULT_SUSTAIN_TIME;
     this.releaseTime = DEFAULT_RELEASE_TIME;
     this.waveform = DEFAULT_WAVEFORM;
+    this.lfoWaveform = DEFAULT_LFO_WAVEFORM;
+    this.lfoRate = DEFAULT_LFO_RATE;
     this.isNoiseOsc = false;
     this._octave = DEFAULT_OCTAVE;
     [this.delay, this.delayFeedback, this.delayGain] = this.initDelayAndFeedback();
+    this.lfoGain = this.audioContext.createGain();
+    // this.lfo = this.initLfo();
+    this._isLfoOn = false;
     this.master = this.initMasterGain(this.volume);
   }
   
@@ -60,6 +74,13 @@ class SynthAudioContext {
   }
   public set octave(value: number) {
     this._octave = value;
+  }
+
+  public get isLfoOn(): boolean {
+    return this._isLfoOn;
+  }
+  public set isLfoOn(value: boolean) {
+    this._isLfoOn = value;
   }
 
   private initDelayAndFeedback(): [DelayNode, GainNode, GainNode] {
@@ -75,6 +96,16 @@ class SynthAudioContext {
     return [delay, feedback, delayGain];
   }
 
+  private initLfo(): OscillatorNode {
+    const lfo = new OscillatorNode(
+      this.audioContext, 
+      { type: DEFAULT_LFO_WAVEFORM, frequency: DEFAULT_LFO_RATE }
+    );
+    // lfo.connect(this.lfoGain.gain)
+    // lfo.connect(this.lowpassFilter.frequency);
+    return lfo;
+  }
+
   private initMasterGain(volume: number): GainNode {
     const master = this.audioContext.createGain();
     master.gain.value = volume;
@@ -84,10 +115,15 @@ class SynthAudioContext {
 
   private stopOsc(forNote: string, when = NOTE_LENGTH) {
     const currentOsc = this.oscs.get(forNote);
+    const currentLfo = this.lfos.get(forNote);
     if (currentOsc) {
       currentOsc.stop(this.audioContext.currentTime + when);
-      this.oscs.delete(forNote)
     }
+    if (currentLfo && this.isLfoOn) {
+      currentLfo.stop(this.audioContext.currentTime + when);
+    }
+    this.oscs.delete(forNote);
+    this.lfos.delete(forNote);
   }
   
   private stopNoise(forNote: string, when = NOTE_LENGTH) {
@@ -98,14 +134,23 @@ class SynthAudioContext {
     }
   }
 
-  public getOsc(forNote: string): OscillatorNode {
-    this.stopOsc(forNote);
+  public getOsc(forNote: string): [OscillatorNode, OscillatorNode] {
     const osc = this.audioContext.createOscillator();
-    const waveform = this.waveform === "random" ? selectWaveformRandomly() : this.waveform;
+    const lfo = new OscillatorNode(
+      this.audioContext, 
+      { type: this.getWaveForm(this.lfoWaveform), frequency: this.lfoRate }
+    );
+    const waveform = this.getWaveForm(this.waveform);
     osc.type = waveform;
+    lfo.connect(osc.frequency);
     this.oscs.set(forNote, osc);
+    this.lfos.set(forNote, lfo);
 
-    return osc;
+    return [osc, lfo];
+  }
+
+  private getWaveForm(waveform: OscillatorType | "random"): OscillatorType {
+    return waveform === "random" ? selectWaveformRandomly() : waveform;
   }
 
   public getGainNode(forNote: string): GainNode {
@@ -121,6 +166,7 @@ class SynthAudioContext {
     gainNode
       .connect(this.lowpassFilter)
       .connect(this.delay);
+
     gainNode.gain.value = ZERO_GAIN;
     this.gainNodes.set(forNote, gainNode);
 
@@ -221,7 +267,9 @@ class SynthAudioContext {
   public setVolume(newVolume: number) {
     if (Number.isFinite(newVolume)) {
       this.volume = newVolume || ZERO_GAIN;
-      this.master.gain.value = this.volume;
+      this.master.gain.exponentialRampToValueAtTime(
+        this.volume, this.audioContext.currentTime + 0.01
+      );
     }
   }
 
@@ -245,18 +293,28 @@ class SynthAudioContext {
 
   public setDelayTime(newTime: number) {
     if (Number.isFinite(newTime)) {
-      this.delay.delayTime.value = newTime / 1000;
+      this.delay.delayTime.exponentialRampToValueAtTime(
+        newTime / 1000,
+        this.audioContext.currentTime + 0.05
+      );
     }
   }
 
   public setDelayFeedback(newFeedback: number) {
     if (Number.isFinite(newFeedback)) {
-      this.delayFeedback.gain.value = newFeedback;
+      this.delayFeedback.gain.exponentialRampToValueAtTime(
+        newFeedback,
+        this.audioContext.currentTime + 0.05
+      );
     } 
   }
 
   public setWaveform(waveform: OscillatorType | "random") {
     this.waveform = waveform;
+  }
+
+  public setLfoWaveform(waveform: OscillatorType | "random") {
+    this.lfoWaveform = waveform === "random" ? selectWaveformRandomly() : waveform;;
   }
 
   public toggleNoise() {
@@ -278,6 +336,28 @@ class SynthAudioContext {
   public setDelayVolume(newVolume: number) {
     if (Number.isFinite(newVolume)) {
       this.delayGain.gain.value = newVolume;
+    }
+  }
+
+  public enableLfo() {
+    this.isLfoOn = true;
+    // this.lfo.start();
+  }
+
+  public disableLfo() {
+    this.isLfoOn = false;
+    // this.lfo.stop();
+    // this.lfo = this.initLfo();
+  }
+
+  public setLfoRate(newRate: number) {
+    // if (Number.isFinite(newRate)) {
+    //   this.lfo.frequency.exponentialRampToValueAtTime(
+    //     newRate, this.audioContext.currentTime + 0.05
+    //   );
+    // }
+    if (Number.isFinite(newRate)) {
+      this.lfoRate = newRate;
     }
   }
 }

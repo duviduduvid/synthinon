@@ -14,5 +14,5 @@ export const DEFAULT_WAVEFORM = "triangle";
 export const DEFAULT_OCTAVE = 3;
 export const DEFAULT_DELAY_TIME = 0.4;
 export const DEFAULT_DELAY_FEEDBACK = 0.25;
-export const DEFAULT_LFO_RATE = 15;
+export const DEFAULT_LFO_RATE = 10;
 export const DEFAULT_LFO_WAVEFORM = "sine";

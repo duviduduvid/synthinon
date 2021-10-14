@@ -41,7 +41,7 @@ export default function OctaveSelector() {
   }
 
   return (
-    <Stack spacing={2} direction="row" sx={{ mb: 1, float: 'right' }}>
+    <Stack spacing={2} direction="row" alignItems="center" sx={{ mb: 1, mt: 0.5, float: 'right' }}>
       <StyledToggleButtonGroup
         value={octave}
         exclusive
@@ -49,7 +49,7 @@ export default function OctaveSelector() {
         onChange={handleChange}
       > 
         {octaves.map(oct => (
-          <ToggleButton key={oct} value={oct} aria-label={`${oct}`}>
+          <ToggleButton key={oct} value={oct} aria-label={`${oct}`} sx={{ height: '30px', width: '30px'}}>
             <Typography 
               color="var(--white-50)"
               fontSize="12px"

@@ -4,7 +4,10 @@
   align-items: center;
 }
 
-.App .panels {
+.App .upper-panel,
+.App .middle-panel,
+.App .lower-panel {
   display: flex;
-  width: 75%;
+  width: 65%;
+  justify-content: center;
 }

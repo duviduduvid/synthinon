@@ -16,9 +16,9 @@ export default function DelayTimeSlider({ disabled }: DelayTimeSliderProps) {
     <GenericSlider 
       label="Duration" 
       disabled={disabled}
-      min={0}
-      max={2000}
-      step={10}
+      min={0.1}
+      max={1000}
+      step={1}
       initValue={DEFAULT_DELAY_TIME * 1000} 
       onChangeHandler={onDelayTimeChange}
     />

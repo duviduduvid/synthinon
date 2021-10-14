@@ -15,9 +15,9 @@ export default function DelayFeedbackSlider({ disabled }: DelayFeedbackSliderPro
     <GenericSlider 
       label="Feedback" 
       disabled={disabled}
-      min={0}
+      min={0.01}
       max={1}
-      step={0.05}
+      step={0.01}
       initValue={DEFAULT_DELAY_FEEDBACK} 
       onChangeHandler={onDelayFeedbackChange}
     />

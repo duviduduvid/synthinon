@@ -76,7 +76,7 @@ export const keys: KeyObject[] = [
 
 export function getSynthOsc(key: KeyObject): {osc: OscillatorNode, noise: AudioBufferSourceNode} {
   const { note, octaveOffset } = key;
-  const osc = synthAudioContext.getOsc(note);
+  const [osc, lfo] = synthAudioContext.getOsc(note);
   const noise = synthAudioContext.getNoise(note);
   const noteGainNode = synthAudioContext.getGainNode(note);
   synthAudioContext.setAmpEnvelope(note);
@@ -91,6 +91,11 @@ export function getSynthOsc(key: KeyObject): {osc: OscillatorNode, noise: AudioB
 
   if (Number.isFinite(freq)) {
     osc.frequency.value = freq;
+  }
+
+  if (synthAudioContext.isLfoOn) {
+    lfo.connect(noteGainNode);
+    lfo.start();
   }
 
   return {osc, noise};

@@ -25,13 +25,14 @@ export default function DelayPanel() {
   return (
     <Container sx={{ 
       flexGrow: 1,
-      margin: 2,
+      margin: 1,
       padding: 2,
       boxShadow: "0 0 50px var(--black-50) inset, 0 1px var(--keyboard-shadow) inset, 0 5px 15px var(--black-50)",
       backgroundColor: "var(--keyboard)",
       borderRadius: '1rem',
       color: 'var(--white-50)',
-      width: '10%'
+      height: '50%',
+      width: '50%'
     }}>
       <Typography textAlign="center" padding="10px">Delay</Typography>
       <FormGroup>

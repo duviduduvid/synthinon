@@ -36,7 +36,7 @@ export default function ColorSelectorPanel() {
       backgroundColor: "var(--keyboard)",
       borderRadius: '1rem',
       color: 'var(--white-50)',
-      width: '10%',
+      width: '12%',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center'

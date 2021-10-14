@@ -11,6 +11,7 @@ import QSlider from "./Sliders/FilterSliders/QSlider";
 import WaveformSelector from './WavefromSelector/WaveformSelector';
 import NoiseToggler from "./NoiseToggler/NoiseToggler";
 import OctaveSelector from './OctaveSelector/OctaveSelector';
+import synthAudioContext from '../synthAudioContext';
 
 const ControlPanel = () => (
   <Grid container spacing={1} sx={{ 
@@ -22,7 +23,7 @@ const ControlPanel = () => (
       borderRadius: '1rem',
       color: 'var(--white-50)',
       height: '50%',
-      width: '50%',
+      width: '88%',
     }}>
     <Grid item xs={12} paddingBottom="12px">
       <Typography textAlign="center">Control Panel</Typography>
@@ -39,7 +40,7 @@ const ControlPanel = () => (
       flexDirection: 'column',
       alignItems: 'center'
     }}>
-      <WaveformSelector />
+      <WaveformSelector setWaveformFn={synthAudioContext.setWaveform.bind(synthAudioContext)}/>
     </Grid>
     <Grid item xs={5}>
       <AttackSlider />

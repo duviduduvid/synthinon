@@ -1,19 +1,31 @@
 import { useState } from 'react';
 import ToggleButton from '@mui/material/ToggleButton';
-import synthAudioContext from '../../synthAudioContext';
 import { Typography } from '@mui/material';
 import StyledToggleButtonGroup from '../StyledToggleButtonGroup';
 import waveforms from "../../images/waveforms.svg";
 
-export default function WaveformSelector() {
-  const waverforms = ["sine", "triangle", "sawtooth", "square", "random"];
-  const [waveform, setWaveform] = useState("triangle");
+type waveformType = OscillatorType | "random";
 
-  const onSelectWaveform = (selected: OscillatorType | "random") => {
-    synthAudioContext.setWaveform(selected);
+type WavefromSelectorProps = {
+  defaultWaveform? : waveformType;
+  orientation?: "horizontal" | "vertical";
+  setWaveformFn: (selected: OscillatorType | "random") => void;
+};
+
+export default function WaveformSelector({ 
+  defaultWaveform = "triangle", 
+  orientation = "vertical", 
+  setWaveformFn 
+}: WavefromSelectorProps) {
+
+  const waverforms = ["sine", "triangle", "sawtooth", "square", "random"];
+  const [waveform, setWaveform] = useState(defaultWaveform);
+
+  const onSelectWaveform = (selected: waveformType) => {
+    setWaveformFn(selected);
   }
 
-  const handleChange = (e: React.MouseEvent<HTMLElement>, selectedWaveform: string) => {
+  const handleChange = (e: React.MouseEvent<HTMLElement>, selectedWaveform: waveformType) => {
     if (selectedWaveform) {
       setWaveform(selectedWaveform);
       onSelectWaveform(selectedWaveform as OscillatorType | "random");
@@ -22,7 +34,7 @@ export default function WaveformSelector() {
 
   return (
     <StyledToggleButtonGroup
-      orientation="vertical"
+      orientation={orientation}
       value={waveform}
       exclusive
       size="small"
@@ -36,6 +48,7 @@ export default function WaveformSelector() {
             <Typography 
               fontSize="10" 
               color="var(--white-50)" 
+              width="30px" 
               height="20px"
             >
               ??
