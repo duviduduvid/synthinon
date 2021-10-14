@@ -1,0 +1,40 @@
+<svg viewBox="0 0 5.890486 16" xmlns="http://www.w3.org/2000/svg">
+    <style>
+        .icon-stroke {
+            fill: none;
+            stroke: #FFFFFF80;
+            stroke-width: 1.4;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .off-stroke {
+            stroke: #FFFFFF80;
+        }
+
+        .on-stroke {
+            stroke: #859494;
+            stroke: #889696;
+            stroke: #588ba7;
+        }
+
+        .icon-fill {
+            fill: #FFFFFF80;
+            stroke: none;
+        }
+
+        svg {overflow: visible;}
+    </style>
+
+    <defs>
+        <path id="sine-wave" vector-effect="non-scaling-stroke" d="M0 0 C0.512287 -0.512287 1.002314 -1 1.570796 -1 C2.139279 -1 2.629306 -0.512287 3.141593 0 C3.653879 0.512287 4.143906 1 4.712389 1 C5.280872 1 5.770899 0.512287 6.283185 0"></path>
+        <path id="triangle-wave" vector-effect="non-scaling-stroke" d="M0,0 L1.570796,-1 L4.712389,1 L6.283185,0"></path>
+        <path id="sawtooth-wave" vector-effect="non-scaling-stroke" d="M0,0 L3.141593,-1 L3.141593,1 L6.283185,0"></path>
+        <path id="square-wave" vector-effect="non-scaling-stroke" d="M0,0 L0,-1 L3.141593,-1 L3.141593,1 L6.283185,1 L6.283185,0"></path>
+    </defs>
+
+    <use href="#sine-wave"     class="off-stroke icon-stroke" x="2.945243" y="2" transform="scale(0.5,1)"></use>
+    <use href="#triangle-wave" class="off-stroke icon-stroke" x="2.945243" y="6" transform="scale(0.5,1)"></use>
+    <use href="#sawtooth-wave" class="off-stroke icon-stroke" x="2.945243" y="10" transform="scale(0.5,1)"></use>
+    <use href="#square-wave"   class="off-stroke icon-stroke" x="2.945243" y="14" transform="scale(0.5,1)"></use>
+</svg>
