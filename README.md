@@ -7,5 +7,6 @@ This one ([Web audio delay](https://tomhazledine.com/web-audio-delay/)) was also
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-#### issues?
+#### TODOs / issues?
 * Still didn't get right the Sustain parameter in the amplitude envelope, so it doesn't really work as expected... 
+* LFO doesn't really work. 
